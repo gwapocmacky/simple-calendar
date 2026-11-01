@@ -1,0 +1,20 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+    <!-- Calendar background -->
+    <path android:fillColor="@color/accent"
+        android:pathData="M4,4 C2.35,4 1,5.35 1,7 C1,37.35 2.35,44 4,44 L44,44 C45.65,44 47,37.35 47,4 L47,7 C47,5.35 45.65,4 44,4 L4,4 Z"/>
+    <!-- Calendar grid lines -->
+    <path android:fillColor="#00000000"
+        android:strokeColor="@color/white"
+        android:strokeWidth="2"
+        android:pathData="M4,7 L44,7 M4,16 L44,16 M4,25 L44,25 M4,34 L44,34 M13,4 L13,44 M22,4 L22,44 M31,4 L31,44"/>
+    <!-- Money coin circle -->
+    <path android:fillColor="@color/white"
+        android:pathData="M24,13 C18.48,13 14,17.48 14,23 C14,28.52 18.48,33 24,33 C29.52,33 34,28.52 34,23 C34,17.48 29.52,13 24,13 Z"/>
+    <!-- Dollar sign -->
+    <path android:fillColor="@color/accent"
+        android:pathData="M24,16 C22.34,16 21,17.34 21,19 C21,20.66 22.34,22 24,22 C25.66,22 27,20.66 27,19 C27,17.34 25.66,16 24,16 Z M24,25 C22.34,25 21,26.34 21,28 C21,29.66 22.34,31 24,31 C25.66,31 27,29.66 27,28 C27,26.34 25.66,25 24,25 Z"/>
+</vector>

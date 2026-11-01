@@ -1,0 +1,20 @@
+# Build outputs
+build/
+*.apk
+*.apk.idsig
+
+# AndroidHarness
+.harness/
+
+# IDE
+.idea/
+*.iml
+.gradle/
+.DS_Store
+
+# Java
+*.class
+*.jar
+
+# Local config
+local.properties

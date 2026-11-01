@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="background">#f8fafc</color>
+    <color name="surface">#ffffff</color>
+    <color name="surface_2">#f1f5f9</color>
+    <color name="foreground">#0f172a</color>
+    <color name="foreground_soft">#334155</color>
+    <color name="muted">#64748b</color>
+    <color name="accent">#6366f1</color>
+    <color name="accent_dark">#4f46e5</color>
+    <color name="accent_soft">#e0e7ff</color>
+    <color name="today">#dbeafe</color>
+    <color name="selected_day">#bfdbfe</color>
+    <color name="income">#10b981</color>
+    <color name="income_soft">#d1fae5</color>
+    <color name="danger">#ef4444</color>
+    <color name="white">#ffffff</color>
+    <color name="divider">#e2e8f0</color>
+    <color name="card_shadow">#88cccccc</color>
+</resources>

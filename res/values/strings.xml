@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Pay Date</string>
+    <string name="add_event">Add Income</string>
+    <string name="edit_event">Edit Event</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="all_day">All day</string>
+    <string name="color">Color</string>
+    <string name="reminder">Remind me (minutes before)</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
+    <string name="no_events">No events</string>
+    <string name="today">Today</string>
+    <string name="delete_confirm">Delete this event?</string>
+    <string name="channel_name">Calendar reminders</string>
+    <string name="channel_desc">Reminders for your calendar events</string>
+    <string name="event_saved">Event saved</string>
+    <string name="event_deleted">Event deleted</string>
+</resources>
