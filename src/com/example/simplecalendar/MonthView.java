@@ -154,6 +154,7 @@ public class MonthView extends LinearLayout {
         cell.setLayoutParams(new LayoutParams(0, LayoutParams.MATCH_PARENT, 1f));
         cell.setPadding(6, 4, 6, 4);
         cell.setTag(cd);
+        cell.setBackgroundColor(UiUtils.getColor(ctx, R.color.surface));
 
         // day number
         TextView num = new TextView(ctx);

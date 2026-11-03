@@ -25,13 +25,16 @@ public class MainActivity extends Activity {
     private NotificationHelper notif;
     private MonthView monthView;
     private LinearLayout summaryPanel;
-    private TextView tvMonthTotal, tvHalfTotals;
+    private TextView tvMonthTotal, tvMonthAmount, tvFirstHalf, tvSecondHalf,
+                     tvHalf1Label, tvHalf2Label,
+                     tvEmptyState, tvEmptySub, tvEmptyHint, tvFooter;
     private FrameLayout content;
     private Button fab;
     private TextView headerTitle;
     private Button btnPrev, btnNext;
     private CalendarDate currentMonth;
     private CalendarDate selectedDay;
+    private int maxDays;
 
     private int appColorHex = 0xff6366f1;
 
@@ -133,37 +136,132 @@ public class MainActivity extends Activity {
         });
         monthStack.addView(monthView);
 
-        // summary panel
-        summaryPanel = new LinearLayout(this);
-        summaryPanel.setOrientation(LinearLayout.VERTICAL);
-        summaryPanel.setPadding(UiUtils.dpToPx(this, 20), UiUtils.dpToPx(this, 16),
-            UiUtils.dpToPx(this, 20), UiUtils.dpToPx(this, 16));
-        int radius = UiUtils.dpToPx(this, 16);
-        summaryPanel.setBackground(UiUtils.roundedBg(UiUtils.getColor(this, R.color.surface), radius));
-        summaryPanel.setElevation(UiUtils.dpToPx(this, 2));
-        LinearLayout.LayoutParams splp = new LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        splp.topMargin = UiUtils.dpToPx(this, 8);
-        summaryPanel.setLayoutParams(splp);
+        // month total row: label left, amount right
+summaryPanel = new LinearLayout(this);
+summaryPanel.setOrientation(LinearLayout.VERTICAL);
+summaryPanel.setPadding(UiUtils.dpToPx(this, 20), UiUtils.dpToPx(this, 16),
+    UiUtils.dpToPx(this, 20), UiUtils.dpToPx(this, 16));
+summaryPanel.setLayoutParams(new LinearLayout.LayoutParams(
+    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 
-        tvMonthTotal = new TextView(this);
-        tvMonthTotal.setTextSize(20);
-        tvMonthTotal.setTextColor(UiUtils.getColor(this, R.color.foreground));
-        tvMonthTotal.setTypeface(null, android.graphics.Typeface.BOLD);
-        summaryPanel.addView(tvMonthTotal);
+LinearLayout totalRow = new LinearLayout(this);
+totalRow.setOrientation(LinearLayout.HORIZONTAL);
+totalRow.setPadding(UiUtils.dpToPx(this, 20), UiUtils.dpToPx(this, 14),
+    UiUtils.dpToPx(this, 20), UiUtils.dpToPx(this, 14));
 
-        tvHalfTotals = new TextView(this);
-        tvHalfTotals.setTextSize(14);
-        tvHalfTotals.setTextColor(UiUtils.getColor(this, R.color.muted));
-        tvHalfTotals.setLineSpacing(UiUtils.dpToPx(this, 4), 1f);
-        LinearLayout.LayoutParams hlp = new LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        hlp.topMargin = UiUtils.dpToPx(this, 6);
-        tvHalfTotals.setLayoutParams(hlp);
-        summaryPanel.addView(tvHalfTotals);
+tvMonthTotal = new TextView(this);
+tvMonthTotal.setText("Month total");
+tvMonthTotal.setTextSize(18);
+tvMonthTotal.setTextColor(UiUtils.getColor(this, R.color.foreground));
+tvMonthTotal.setTypeface(null, android.graphics.Typeface.BOLD);
+totalRow.addView(tvMonthTotal, new LinearLayout.LayoutParams(0,
+    ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
 
-        monthStack.addView(summaryPanel);
-        content.addView(monthStack);
+tvMonthAmount = new TextView(this);
+tvMonthAmount.setTextSize(18);
+tvMonthAmount.setTextColor(UiUtils.getColor(this, R.color.foreground));
+tvMonthAmount.setTypeface(null, android.graphics.Typeface.BOLD);
+tvMonthAmount.setGravity(Gravity.END);
+totalRow.addView(tvMonthAmount, new LinearLayout.LayoutParams(0,
+    ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
+
+summaryPanel.addView(totalRow);
+
+// combined halves row: "First half (1–15) +693.75 · Second half (16–31) +693.75"
+LinearLayout halfRow = new LinearLayout(this);
+halfRow.setOrientation(LinearLayout.HORIZONTAL);
+halfRow.setPadding(UiUtils.dpToPx(this, 20), UiUtils.dpToPx(this, 6),
+    UiUtils.dpToPx(this, 20), UiUtils.dpToPx(this, 6));
+TextView tvHalf1Label = new TextView(this);
+tvHalf1Label.setText("1–15");
+tvHalf1Label.setTextSize(14);
+tvHalf1Label.setTextColor(UiUtils.getColor(this, R.color.muted));
+halfRow.addView(tvHalf1Label, new LinearLayout.LayoutParams(0,
+    ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
+tvFirstHalf = new TextView(this);
+tvFirstHalf.setTextSize(14);
+tvFirstHalf.setTextColor(UiUtils.getColor(this, R.color.muted));
+tvFirstHalf.setTypeface(null, android.graphics.Typeface.BOLD);
+tvFirstHalf.setGravity(Gravity.END);
+halfRow.addView(tvFirstHalf, new LinearLayout.LayoutParams(0,
+    ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
+TextView tvDot = new TextView(this);
+tvDot.setText(" · ");
+tvDot.setTextSize(14);
+tvDot.setTextColor(UiUtils.getColor(this, R.color.muted));
+halfRow.addView(tvDot, new LinearLayout.LayoutParams(
+    ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+tvHalf2Label = new TextView(this);
+tvHalf2Label.setText("16–" + maxDays);
+tvHalf2Label.setTextSize(14);
+tvHalf2Label.setTextColor(UiUtils.getColor(this, R.color.muted));
+halfRow.addView(tvHalf2Label, new LinearLayout.LayoutParams(0,
+    ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
+tvSecondHalf = new TextView(this);
+tvSecondHalf.setTextSize(14);
+tvSecondHalf.setTextColor(UiUtils.getColor(this, R.color.muted));
+tvSecondHalf.setTypeface(null, android.graphics.Typeface.BOLD);
+tvSecondHalf.setGravity(Gravity.END);
+halfRow.addView(tvSecondHalf, new LinearLayout.LayoutParams(0,
+    ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
+summaryPanel.addView(halfRow);
+
+// divider
+View divider = new View(this);
+divider.setBackgroundColor(UiUtils.getColor(this, R.color.divider));
+LinearLayout.LayoutParams dlp = new LinearLayout.LayoutParams(
+    ViewGroup.LayoutParams.MATCH_PARENT, 1);
+summaryPanel.addView(divider, dlp);
+
+// empty state
+tvEmptyState = new TextView(this);
+tvEmptyState.setTextSize(20);
+tvEmptyState.setTextColor(UiUtils.getColor(this, R.color.foreground));
+tvEmptyState.setTypeface(null, android.graphics.Typeface.BOLD);
+tvEmptyState.setGravity(Gravity.CENTER_HORIZONTAL);
+LinearLayout.LayoutParams esp = new LinearLayout.LayoutParams(
+    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+esp.topMargin = UiUtils.dpToPx(this, 16);
+esp.bottomMargin = UiUtils.dpToPx(this, 4);
+tvEmptyState.setLayoutParams(esp);
+summaryPanel.addView(tvEmptyState);
+
+tvEmptySub = new TextView(this);
+tvEmptySub.setText("Add regular, overtime, double pay or holiday earnings to a day.");
+tvEmptySub.setTextSize(14);
+tvEmptySub.setTextColor(UiUtils.getColor(this, R.color.muted));
+tvEmptySub.setGravity(Gravity.CENTER_HORIZONTAL);
+LinearLayout.LayoutParams esp2 = new LinearLayout.LayoutParams(
+    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+esp2.bottomMargin = UiUtils.dpToPx(this, 8);
+tvEmptySub.setLayoutParams(esp2);
+summaryPanel.addView(tvEmptySub);
+
+tvEmptyHint = new TextView(this);
+tvEmptyHint.setText("Double-tap a date to copy the previous income entry, or tap + to add income");
+tvEmptyHint.setTextSize(12);
+tvEmptyHint.setTextColor(UiUtils.getColor(this, R.color.muted));
+tvEmptyHint.setGravity(Gravity.CENTER_HORIZONTAL);
+tvEmptyHint.setLineSpacing(UiUtils.dpToPx(this, 2), 1f);
+LinearLayout.LayoutParams esp3 = new LinearLayout.LayoutParams(
+    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+esp3.bottomMargin = UiUtils.dpToPx(this, 12);
+tvEmptyHint.setLayoutParams(esp3);
+summaryPanel.addView(tvEmptyHint);
+
+// footer: recorded days + month + long press hint
+tvFooter = new TextView(this);
+tvFooter.setTextSize(14);
+tvFooter.setTextColor(UiUtils.getColor(this, R.color.muted));
+tvFooter.setGravity(Gravity.CENTER_HORIZONTAL);
+LinearLayout.LayoutParams footerLp = new LinearLayout.LayoutParams(
+    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+footerLp.bottomMargin = UiUtils.dpToPx(this, 140); // clear FAB
+tvFooter.setLayoutParams(footerLp);
+summaryPanel.addView(tvFooter);
+
+monthStack.addView(summaryPanel);
+content.addView(monthStack);
 
         // FAB
         fab = new Button(this);
@@ -273,6 +371,8 @@ public class MainActivity extends Activity {
         long end = cal.getTimeInMillis();
         Map<CalendarDate, Double> totals = store.getTotalsByDay(start, end);
         monthView.setTotalsByDay(totals);
+        maxDays = max;
+        tvHalf2Label.setText("16–" + maxDays);
 
         double monthTotal = 0;
         double firstHalf = 0;
@@ -283,9 +383,29 @@ public class MainActivity extends Activity {
             else secondHalf += e.getValue();
         }
 
-        tvMonthTotal.setText("Month Total:  +" + formatMoney(monthTotal));
-        tvHalfTotals.setText("First Half (1\u201315):  +" + formatMoney(firstHalf)
-            + "\nSecond Half (16\u2013" + max + "):  +" + formatMoney(secondHalf));
+        tvMonthTotal.setText("Month total");
+        tvMonthAmount.setText("₱" + formatMoney(monthTotal));
+        tvFirstHalf.setText("+" + formatMoney(firstHalf));
+        tvSecondHalf.setText("+" + formatMoney(secondHalf));
+
+        boolean empty = monthTotal <= 0;
+        tvEmptyState.setText(empty ? "Start with your first income entry" : "");
+        tvEmptySub.setText(empty ? "Add regular, overtime, double pay or holiday earnings to a day." : "");
+        tvEmptyHint.setText(empty ? "Double-tap a date to copy the previous income entry, or tap + to add income" : "");
+
+        int count = 0;
+        for (Event ev : store.getAll()) {
+            CalendarDate d = CalendarDate.fromMillis(ev.startMs);
+            if (d.year == currentMonth.year && d.month == currentMonth.month) count++;
+        }
+
+        // month name for footer
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MMMM", java.util.Locale.getDefault());
+        java.util.Calendar mc = java.util.Calendar.getInstance();
+        mc.set(currentMonth.year, currentMonth.month, 1);
+        String monthName = sdf.format(mc.getTime());
+
+        tvFooter.setText(count + " recorded days · " + monthName + " · Long press a date to remove its amount");
     }
 
     private void deleteDay(CalendarDate d) {

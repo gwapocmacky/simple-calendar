@@ -29,6 +29,7 @@ public class SecretSettingsPanel {
         root.setOrientation(LinearLayout.VERTICAL);
         root.setPadding(UiUtils.dpToPx(context, 20), UiUtils.dpToPx(context, 16),
             UiUtils.dpToPx(context, 20), UiUtils.dpToPx(context, 16));
+        root.setBackgroundColor(UiUtils.getColor(context, R.color.surface));
 
         int accent = prefs.appColor();
         int foreground = UiUtils.getColor(context, R.color.foreground);
