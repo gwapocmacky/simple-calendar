@@ -1,21 +1,266 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/root"
+    android:id="@+id/main_root"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/surface">
-    <FrameLayout
-        android:id="@+id/content"
+    android:layout_height="match_parent">
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!-- Top App Bar -->
+        <LinearLayout
+            android:id="@+id/top_bar"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:elevation="6dp">
+
+            <Button
+                android:id="@+id/btn_prev_month"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:text="‹"
+                android:textSize="22sp"
+                android:textColor="#ffffff"
+                android:background="@drawable/bg_button_secondary" />
+
+            <TextView
+                android:id="@+id/tv_month_header"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="November 2026"
+                android:textColor="#ffffff"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btn_next_month"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:text="›"
+                android:textSize="22sp"
+                android:textColor="#ffffff"
+                android:background="@drawable/bg_button_secondary" />
+
+            <View
+                android:layout_width="8dp"
+                android:layout_height="1dp" />
+
+            <Button
+                android:id="@+id/btn_theme_toggle"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:text="🌙"
+                android:textSize="15sp"
+                android:background="@drawable/bg_button_secondary" />
+
+            <View
+                android:layout_width="6dp"
+                android:layout_height="1dp" />
+
+            <Button
+                android:id="@+id/btn_today"
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+                android:text="Today"
+                android:textColor="#ffffff"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:background="@drawable/bg_button"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" />
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="12dp"
+                android:paddingBottom="90dp">
+
+                <!-- Month Summary Card -->
+                <LinearLayout
+                    android:id="@+id/card_month_summary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@drawable/bg_card"
+                    android:padding="14dp"
+                    android:layout_marginBottom="12dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:id="@+id/tv_month_total_label"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Month Total Earnings"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_month_total_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0.00"
+                            android:textColor="#10b981"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/divider_summary"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#27272a"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_half1_label"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="1–15: +0.00"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/tv_half2_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="16–31: +0.00"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Calendar Card -->
+                <LinearLayout
+                    android:id="@+id/card_calendar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@drawable/bg_card"
+                    android:padding="8dp"
+                    android:layout_marginBottom="14dp">
+
+                    <FrameLayout
+                        android:id="@+id/month_view_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <!-- Selected Day Section Header -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="8dp">
+
+                    <TextView
+                        android:id="@+id/tv_selected_date_title"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Day Details"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/btn_add_event_main"
+                        android:layout_width="wrap_content"
+                        android:layout_height="36dp"
+                        android:text="+ Event"
+                        android:textColor="#ffffff"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:background="@drawable/bg_button"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp" />
+
+                    <View
+                        android:layout_width="6dp"
+                        android:layout_height="1dp" />
+
+                    <Button
+                        android:id="@+id/btn_add_income_main"
+                        android:layout_width="wrap_content"
+                        android:layout_height="36dp"
+                        android:text="+ Income"
+                        android:textColor="#ffffff"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:background="@drawable/bg_button"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp" />
+                </LinearLayout>
+
+                <!-- Container for Daily Income card -->
+                <LinearLayout
+                    android:id="@+id/container_daily_income"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="6dp" />
+
+                <!-- Container for Events list -->
+                <LinearLayout
+                    android:id="@+id/container_events"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+
+                <!-- Empty state -->
+                <TextView
+                    android:id="@+id/tv_empty_day"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="24dp"
+                    android:text="No events or income recorded for this day."
+                    android:textSize="13sp"
+                    android:lineSpacingExtra="3dp" />
+
+
+
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+    <!-- Floating Action Button (Pay Date Style) -->
     <Button
         android:id="@+id/fab_add"
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
+        android:layout_margin="20dp"
         android:background="@drawable/ripple_fab"
         android:text="+"
-        android:textSize="24sp"
-        android:textColor="@color/white"/>
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:textColor="#ffffff"
+        android:elevation="8dp" />
+
 </FrameLayout>

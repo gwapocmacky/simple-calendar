@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <TextView
+        android:id="@+id/tv_event_title_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Event Title *"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="4dp" />
+
+    <EditText
+        android:id="@+id/et_event_title"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:hint="e.g. Project Sync / Doctor Appointment"
+        android:textSize="14sp"
+        android:background="@drawable/bg_edit_text"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:singleLine="true"
+        android:layout_marginBottom="14dp" />
+
+    <TextView
+        android:id="@+id/tv_event_time_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Time"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="4dp" />
+
+    <EditText
+        android:id="@+id/et_event_time"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:hint="e.g. 10:00 AM or All Day"
+        android:textSize="14sp"
+        android:background="@drawable/bg_edit_text"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:singleLine="true"
+        android:layout_marginBottom="14dp" />
+
+    <TextView
+        android:id="@+id/tv_category_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Category"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="6dp" />
+
+    <RadioGroup
+        android:id="@+id/rg_category"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="14dp">
+
+        <RadioButton
+            android:id="@+id/rb_work"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:checked="true"
+            android:text="Work"
+            android:textSize="12sp"
+            android:textColor="#7c6af7" />
+
+        <RadioButton
+            android:id="@+id/rb_personal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Personal"
+            android:textSize="12sp"
+            android:textColor="#10b981" />
+
+        <RadioButton
+            android:id="@+id/rb_urgent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Urgent"
+            android:textSize="12sp"
+            android:textColor="#ef4444" />
+
+        <RadioButton
+            android:id="@+id/rb_health"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Health"
+            android:textSize="12sp"
+            android:textColor="#06b6d4" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/tv_event_desc_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Description / Notes"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="4dp" />
+
+    <EditText
+        android:id="@+id/et_event_desc"
+        android:layout_width="match_parent"
+        android:layout_height="68dp"
+        android:gravity="top|left"
+        android:hint="Add details or location..."
+        android:textSize="14sp"
+        android:background="@drawable/bg_edit_text"
+        android:padding="10dp"
+        android:layout_marginBottom="10dp" />
+
+</LinearLayout>

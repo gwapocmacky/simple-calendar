@@ -1,4 +1,4 @@
-package com.example.simplecalendar;
+package com.elegantcal.app;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -13,13 +13,22 @@ import android.view.View;
 public class ColorWheelView extends View {
     private Paint wheelPaint;
     private Paint selectorPaint;
+    private Paint centerPaint;
+    private Paint centerStrokePaint;
+
     private float centerX, centerY;
     private float radius;
     private float baseRadius;
     private float selectorAngle = 0;
+    private int currentColor = 0xff7c6af7;
+
     private OnColorSelectedListener listener;
     private ScaleGestureDetector scaleDetector;
     private float scaleFactor = 1.0f;
+
+    public interface OnColorSelectedListener {
+        void onColorSelected(int color);
+    }
 
     public ColorWheelView(Context context) {
         this(context, null);
@@ -28,14 +37,26 @@ public class ColorWheelView extends View {
     public ColorWheelView(Context context, AttributeSet attrs) {
         super(context, attrs);
         wheelPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+
         selectorPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         selectorPaint.setColor(Color.WHITE);
         selectorPaint.setStyle(Paint.Style.STROKE);
-        selectorPaint.setStrokeWidth(4);
+        selectorPaint.setStrokeWidth(6);
+
+        centerPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        centerPaint.setStyle(Paint.Style.FILL);
+        centerPaint.setColor(currentColor);
+
+        centerStrokePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        centerStrokePaint.setStyle(Paint.Style.STROKE);
+        centerStrokePaint.setColor(0x88ffffff);
+        centerStrokePaint.setStrokeWidth(4);
+
         scaleDetector = new ScaleGestureDetector(context, new ScaleGestureDetector.SimpleOnScaleGestureListener() {
-            @Override public boolean onScale(ScaleGestureDetector detector) {
+            @Override
+            public boolean onScale(ScaleGestureDetector detector) {
                 scaleFactor *= detector.getScaleFactor();
-                scaleFactor = Math.max(0.8f, Math.min(scaleFactor, 1.8f));
+                scaleFactor = Math.max(0.85f, Math.min(scaleFactor, 1.5f));
                 invalidate();
                 return true;
             }
@@ -46,14 +67,33 @@ public class ColorWheelView extends View {
         this.listener = l;
     }
 
+    public void setColor(int color) {
+        this.currentColor = color;
+        centerPaint.setColor(color);
+        // Find approximate angle
+        float[] hsv = new float[3];
+        Color.colorToHSV(color, hsv);
+        selectorAngle = hsv[0];
+        invalidate();
+    }
+
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         centerX = w / 2f;
         centerY = h / 2f;
-        baseRadius = Math.min(w, h) / 2f - 20;
+        baseRadius = Math.min(w, h) / 2f - 24;
         radius = baseRadius;
-        int[] colors = {Color.RED, Color.YELLOW, Color.GREEN, Color.CYAN, Color.BLUE, Color.MAGENTA, Color.RED};
+
+        int[] colors = {
+                Color.RED,
+                Color.YELLOW,
+                Color.GREEN,
+                Color.CYAN,
+                Color.BLUE,
+                Color.MAGENTA,
+                Color.RED
+        };
         SweepGradient gradient = new SweepGradient(centerX, centerY, colors, null);
         wheelPaint.setShader(gradient);
     }
@@ -62,12 +102,21 @@ public class ColorWheelView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         radius = baseRadius * scaleFactor;
+
+        // Draw color wheel
         canvas.drawCircle(centerX, centerY, radius, wheelPaint);
-        // selector
+
+        // Center preview dot
+        float centerR = radius * 0.30f;
+        centerPaint.setColor(currentColor);
+        canvas.drawCircle(centerX, centerY, centerR, centerPaint);
+        canvas.drawCircle(centerX, centerY, centerR, centerStrokePaint);
+
+        // Selector ring on the outer wheel
         double angle = Math.toRadians(selectorAngle);
-        float sx = (float) (centerX + (radius - 10) * Math.cos(angle));
-        float sy = (float) (centerY + (radius - 10) * Math.sin(angle));
-        canvas.drawCircle(sx, sy, 8, selectorPaint);
+        float sx = (float) (centerX + (radius - 14) * Math.cos(angle));
+        float sy = (float) (centerY + (radius - 14) * Math.sin(angle));
+        canvas.drawCircle(sx, sy, 12, selectorPaint);
     }
 
     @Override
@@ -77,11 +126,16 @@ public class ColorWheelView extends View {
             float dx = event.getX() - centerX;
             float dy = event.getY() - centerY;
             float dist = (float) Math.sqrt(dx * dx + dy * dy);
-            if (dist < radius + 15) {
+
+            // If touched outside center
+            if (dist > radius * 0.25f && dist < radius + 30) {
                 selectorAngle = (float) Math.toDegrees(Math.atan2(dy, dx));
                 if (selectorAngle < 0) selectorAngle += 360;
-                int color = getColorAtAngle(selectorAngle);
-                if (listener != null) listener.onColorSelected(color);
+                currentColor = getColorAtAngle(selectorAngle);
+                centerPaint.setColor(currentColor);
+                if (listener != null) {
+                    listener.onColorSelected(currentColor);
+                }
                 invalidate();
                 return true;
             }
@@ -90,11 +144,7 @@ public class ColorWheelView extends View {
     }
 
     private int getColorAtAngle(float angle) {
-        float[] hsv = {angle, 1f, 1f};
+        float[] hsv = {angle, 0.90f, 0.95f};
         return Color.HSVToColor(hsv);
-    }
-
-    public interface OnColorSelectedListener {
-        void onColorSelected(int color);
     }
 }

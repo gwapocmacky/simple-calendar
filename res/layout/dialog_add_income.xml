@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/tv_income_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Daily Earnings Entry"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="14dp" />
+
+        <!-- Regular -->
+        <TextView
+            android:id="@+id/tv_lbl_regular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Regular Pay"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="3dp" />
+
+        <EditText
+            android:id="@+id/et_regular"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:hint="0.00"
+            android:inputType="numberDecimal"
+            android:textSize="14sp"
+            android:background="@drawable/bg_edit_text"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Overtime Row with - / + Stepper -->
+        <TextView
+            android:id="@+id/tv_lbl_ot"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Overtime Hours (Regular / 8 × 1.25 × hrs)"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="12dp">
+
+            <Button
+                android:id="@+id/btn_ot_minus"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:text="−"
+                android:textSize="20sp"
+                android:textColor="#ffffff"
+                android:background="@drawable/bg_button" />
+
+            <EditText
+                android:id="@+id/et_ot_hours"
+                android:layout_width="60dp"
+                android:layout_height="44dp"
+                android:gravity="center"
+                android:text="0"
+                android:inputType="number"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:background="@drawable/bg_edit_text"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="6dp" />
+
+            <Button
+                android:id="@+id/btn_ot_plus"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:text="+"
+                android:textSize="20sp"
+                android:textColor="#ffffff"
+                android:background="@drawable/bg_button" />
+
+            <EditText
+                android:id="@+id/et_overtime"
+                android:layout_width="0dp"
+                android:layout_height="44dp"
+                android:layout_weight="1"
+                android:hint="0.00"
+                android:gravity="end|center_vertical"
+                android:inputType="numberDecimal"
+                android:textSize="14sp"
+                android:background="@drawable/bg_edit_text"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:layout_marginLeft="8dp" />
+        </LinearLayout>
+
+        <!-- Holiday Checkbox & Amount -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="10dp">
+
+            <CheckBox
+                android:id="@+id/cb_holiday"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Holiday Pay"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/et_holiday"
+                android:layout_width="120dp"
+                android:layout_height="44dp"
+                android:hint="0.00"
+                android:gravity="end|center_vertical"
+                android:inputType="numberDecimal"
+                android:textSize="14sp"
+                android:background="@drawable/bg_edit_text"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" />
+        </LinearLayout>
+
+        <!-- Double Pay Checkbox & Amount -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="12dp">
+
+            <CheckBox
+                android:id="@+id/cb_double_pay"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Double Pay"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/et_double_pay"
+                android:layout_width="120dp"
+                android:layout_height="44dp"
+                android:hint="0.00"
+                android:gravity="end|center_vertical"
+                android:inputType="numberDecimal"
+                android:textSize="14sp"
+                android:background="@drawable/bg_edit_text"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" />
+        </LinearLayout>
+
+        <!-- Extra / Bonus -->
+        <TextView
+            android:id="@+id/tv_lbl_extra"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Extra / Bonus"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="3dp" />
+
+        <EditText
+            android:id="@+id/et_extra"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:hint="0.00"
+            android:inputType="numberDecimal"
+            android:textSize="14sp"
+            android:background="@drawable/bg_edit_text"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Total Badge -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="12dp"
+            android:background="@drawable/bg_income_badge">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Calculated Total:"
+                android:textColor="#ffffff"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_calc_total"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0.00"
+                android:textColor="#ffffff"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
